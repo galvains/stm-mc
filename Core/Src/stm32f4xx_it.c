@@ -209,9 +209,45 @@ void TIM2_IRQHandler(void)
   /* USER CODE BEGIN TIM2_IRQn 0 */
 
   /* USER CODE END TIM2_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim2);
+
+    if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_0) != RESET)
+    {
+        __HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_0);
+        if (__HAL_TIM_GET_AUTORELOAD(&htim2) == 100)
+        {
+            __HAL_TIM_SET_AUTORELOAD(&htim2, 200);
+            __HAL_TIM_SET_AUTORELOAD(&htim3, 300);
+            __HAL_TIM_SET_AUTORELOAD(&htim4, 400);
+            __HAL_TIM_SET_AUTORELOAD(&htim5, 100);
+        }
+        else if (__HAL_TIM_GET_AUTORELOAD(&htim2) == 200)
+        {
+            __HAL_TIM_SET_AUTORELOAD(&htim2, 300);
+            __HAL_TIM_SET_AUTORELOAD(&htim3, 400);
+            __HAL_TIM_SET_AUTORELOAD(&htim4, 100);
+            __HAL_TIM_SET_AUTORELOAD(&htim5, 200);
+        }
+        else if (__HAL_TIM_GET_AUTORELOAD(&htim2) == 300)
+        {
+            __HAL_TIM_SET_AUTORELOAD(&htim2, 400);
+            __HAL_TIM_SET_AUTORELOAD(&htim3, 100);
+            __HAL_TIM_SET_AUTORELOAD(&htim4, 200);
+            __HAL_TIM_SET_AUTORELOAD(&htim5, 300);
+        }
+        else
+        {
+            __HAL_TIM_SET_AUTORELOAD(&htim2, 100);
+            __HAL_TIM_SET_AUTORELOAD(&htim3, 200);
+            __HAL_TIM_SET_AUTORELOAD(&htim4, 300);
+            __HAL_TIM_SET_AUTORELOAD(&htim5, 400);
+        }
+        __HAL_TIM_SET_COUNTER(&htim2, 0);
+        __HAL_TIM_SET_COUNTER(&htim3, 0);
+        __HAL_TIM_SET_COUNTER(&htim4, 0);
+        __HAL_TIM_SET_COUNTER(&htim5, 0);
+    }
   /* USER CODE BEGIN TIM2_IRQn 1 */
-  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+
   /* USER CODE END TIM2_IRQn 1 */
 }
 
